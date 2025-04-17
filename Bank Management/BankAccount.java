@@ -4,7 +4,7 @@ import java.util.Scanner;
 class BankAccount {
 
     static Scanner sc = new Scanner(System.in);
-    static Check c = new Check(sc);
+    static UserInputHandler c = new UserInputHandler(sc);
 
     int amount;
     private final String name;
@@ -24,7 +24,7 @@ class BankAccount {
             transLog[transCount][1] = Balance;
             transCount++;
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Your Transaction Log is full Please contact the authorities");
+            System.out.println("Your Transaction Log is full Please contact the authorityies");
         }
     }
 
@@ -69,6 +69,7 @@ class BankAccount {
             amount = sc.nextShort();
         } catch (InputMismatchException e) {
             System.out.println("Please Enter a Valid Amount");
+            sc.nextLine(); // Clear the invalid input
         }
 
         if (amount > Balance) {
@@ -94,6 +95,7 @@ class BankAccount {
             amount = sc.nextShort();
         } catch (InputMismatchException e) {
             System.out.println("Please Enter a Valid Amount");
+            sc.nextLine(); // Clear the invalid input
         }
 
         Balance += amount;
@@ -114,7 +116,7 @@ class BankAccount {
             return;
         }
         System.out.println("Amount\tRemaining Balance");
-        for (int row = 0; row < 100; row++) {
+        for (int row = 0; row < transCount; row++) {
             System.out.println(transLog[row][0] + "  " + transLog[row][1]);
         }
     }

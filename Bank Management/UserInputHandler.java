@@ -1,12 +1,12 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-class Check {
+class UserInputHandler {
 
     static Scanner sc;
 
     @SuppressWarnings("static-access")
-    Check(Scanner sc) {
+    UserInputHandler(Scanner sc) {
         this.sc = sc;
     }
 

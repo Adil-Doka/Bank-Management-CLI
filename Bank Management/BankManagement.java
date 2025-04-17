@@ -1,3 +1,4 @@
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -26,7 +27,7 @@ public class BankManagement {
                             acc[users] = new BankAccount(users);
                             users++;
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            System.out.println("Something went Wrong Please contact the authorities........");
+                            System.out.println("Something went Wrong Please contact the authorityies........");
                         }
 
                     }
@@ -91,14 +92,12 @@ public class BankManagement {
                     if (acc[i].getAccountNumber() == accNo) {
                         return i;
                     }
-                    throw new AccNoDoesntExistException("Account Number Doesn't match");
                 }
+                    throw new AccNoDoesntExistException("Account Number Doesn't match");
             } catch (InputMismatchException e) {
                 System.out.println("Please Enter a valid number\n");
-                continue;
             } catch (AccNoDoesntExistException a) {
                 System.out.println(a);
-                continue;
             }
             count++;
         }
