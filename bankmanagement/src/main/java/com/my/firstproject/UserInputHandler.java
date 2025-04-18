@@ -1,3 +1,5 @@
+package com.my.firstproject;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
