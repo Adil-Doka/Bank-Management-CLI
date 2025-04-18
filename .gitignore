@@ -1,5 +1,7 @@
 # Maven target directory
 /target/
+# Ignore Maven target directory
+target/
 
 # Eclipse/IntelliJ/VSCode IDE files
 .classpath
