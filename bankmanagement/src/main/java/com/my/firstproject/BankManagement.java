@@ -1,3 +1,8 @@
+<<<<<<<< HEAD:BankManagement.java
+========
+package com.my.firstproject;
+
+>>>>>>>> 36429ee (move the code inside the maven):bankmanagement/src/main/java/com/my/firstproject/BankManagement.java
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
