@@ -1,19 +1,15 @@
-package com.my.firstproject;
+package com.myfirstproject;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class UserInputHandler {
 
-    static Scanner sc;
-
-    @SuppressWarnings("static-access")
-    UserInputHandler(Scanner sc) {
-        this.sc = sc;
-    }
+    Scanner sc = new Scanner(System.in);
 
     String CheckName() {
         String name;
+        System.out.println("Enter you Name");
         name = sc.nextLine();
         while (!isOnlyAlphabets(name)) {
             System.out.println("Enter a Valid Name");
@@ -24,6 +20,7 @@ class UserInputHandler {
 
     String checkNumber() {
         String num;
+        System.out.println("Enter You'r Mobile Number");
         num = sc.next();
         while (!isInteger(num)) {
             System.out.println("Enter a Valid mobile Number");
@@ -45,21 +42,22 @@ class UserInputHandler {
     }
 
     short checkPin() {
+        // System.out.println("Create new PIN:");
         short pin;
-        System.out.println("Enter the Pin Below");
+        System.out.println("Enter the 4 digit Pin Below");
         while (true) {
 
             try {
 
                 pin = sc.nextShort();
-                if (pin > 999) {
+                if (pin > 999 & pin < 9999) {
                     return pin;
                 } else {
-                    throw new AccNoDoesntExistException("Enter Your 4 Digit Pin");
+                    throw new NumberNotValidException("Enter the correct 4 Digit Pin");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Enter a Valid 4 DIgit Pin");
-            } catch (AccNoDoesntExistException ex) {
+            } catch (NumberNotValidException ex) {
                 System.out.println(ex);
             }
 
@@ -67,16 +65,17 @@ class UserInputHandler {
     }
 
     boolean validatePin(short pin) {
-        for (int i = 0; i < 5; i++) {
+        int attempt = 4;
+        for (int i = 1; i < 5; i++) {
             if (pin == checkPin()) {
                 return true;
             } else {
                 System.out.println("Invalid Pin");
-                System.out.println("Enter Your Pin Again");
+                System.out.println("Enter Your Pin Again (" +attempt+ "attempt left)");
+                attempt--;
             }
         }
         return false;
     }
 
 }
-
