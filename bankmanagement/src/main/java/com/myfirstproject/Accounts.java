@@ -5,12 +5,12 @@ class Accounts {
 
     private String name;
     private String mobileNumber;
-    private int accountNumber;
-    private short pin;
+    private String accountNumber;
+    private String pin;
     private int balance;
 
     // Constructor
-    public Accounts(String name, String mobileNumber, int accountNumber, short pin) {
+    public Accounts(String name, String mobileNumber, String accountNumber, String pin) {
         this.name = name;
         this.mobileNumber = mobileNumber;
         this.accountNumber = accountNumber;
@@ -32,11 +32,11 @@ class Accounts {
         return this.mobileNumber;
     }
 
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return this.accountNumber;
     }
 
-    public short getPin() {
+    public String getPin() {
         return this.pin;
     }
 
@@ -52,11 +52,11 @@ class Accounts {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
-    public void setAccountNumber(int accountNumber) {
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
-    public void setPin(short pin) {
+    public void setPin(String pin) {
         this.pin = pin;
     }
 
