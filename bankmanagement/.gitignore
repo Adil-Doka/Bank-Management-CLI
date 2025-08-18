@@ -1,0 +1,4 @@
+.vscode/
+.env
+Json_Files/
+target/
