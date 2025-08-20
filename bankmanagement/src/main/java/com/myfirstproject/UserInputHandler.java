@@ -17,8 +17,8 @@ class UserInputHandler {
     String CheckName() throws InValidInputException {
         String name;
         byte attempt = 0;
-        System.out.println("Enter you Name");
-        name = sc.nextLine();
+        System.out.println("Enter your Name");
+        name = sc.next();
         while (!isOnlyAlphabets(name)) {
             attempt++;
             System.out.println("Enter a Valid Name");

@@ -1,11 +1,13 @@
+
 package com.myfirstproject;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
-// import java.util.List;
 import java.util.Scanner;
 
 public class Bank {
+
+    JDBCconectivity DB = new JDBCconectivity();
 
     Scanner sc;
     UserInputHandler handle;
@@ -19,9 +21,9 @@ public class Bank {
 
         Bank bank = new Bank(new Scanner(System.in));
 
-        HashMap<String, Accounts> accontList = new HashMap<>();
-        // JsonJackson json = new JsonJackson(accontList);
-        int TotalUsers = accontList.size();
+        ArrayList<String> totalUserAccNo = new ArrayList<>();
+        bank.DB.getAllAccountno(totalUserAccNo);
+
         byte option = 0;
 
         while (true) {
@@ -35,64 +37,73 @@ public class Bank {
                 switch (option) {
 
                     case 1 -> {
+                        String acc = "0";
                         try {
 
-                            accontList.put(
-                                    Integer.toString(1000 + TotalUsers),
-                                    (new Accounts(
-                                            bank.handle.CheckName(),
-                                            bank.handle.checkNumber(),
-                                            Integer.toString(1000 + TotalUsers),
-                                            bank.handle.checkPin())));
+                            acc = bank.DB.newUser(bank.handle.CheckName(),
+                                    bank.handle.checkNumber(),
+                                    bank.handle.checkPin());
 
                         } catch (InValidInputException e) {
                             System.out.println(e);
                         }
 
-                        System.out.println("Your Account is Created Successfully\nThanks for Joining Us");
-                        System.out.println("Your Account Number is: " + (1000 + TotalUsers));
-                        // json.writeNewAccountData(accontList.get(TotalUsers));
-                        TotalUsers++;
+                        if (acc.equals("0")) {
+                            System.out.println("Something went wrong");
+                        } else {
+                            System.out.println("Your Account is Created Successfully\nThanks for Joining Us");
+                            System.out.println("Your Account Number is: " + acc);
+                            totalUserAccNo.add(acc);
+                        }
 
                     }
                     case 2 -> {
                         System.out.println("Enter Your bank account Number");
                         String acc = bank.sc.next();
-                        if (accontList.containsKey(acc))
-                            bank.checkBalance(accontList.get(acc));
-                        else
+                        if (totalUserAccNo.contains(acc)) {
+                            try {
+                                bank.checkBalance(bank.DB.getAccount(acc));
+                            } catch (NullPointerException e) {
+                                System.out.println("Some shit happen " + e);
+                            }
+                        } else
                             System.out.println("Account didnt exist");
 
                     }
                     case 3 -> {
                         System.out.println("Enter Your bank account Number");
                         String acc = bank.sc.next();
-                        if (accontList.containsKey(acc))
-                            bank.withDraw(accontList.get(acc));
-                        else
+                        if (totalUserAccNo.contains(acc)) {
+                            try {
+                                bank.withDraw(bank.DB.getAccount(acc));
+                            } catch (NullPointerException e) {
+                                System.out.println("Some shit happen " + e);
+                            }
+                        } else
                             System.out.println("Account didnt exist");
                     }
                     case 4 -> {
                         System.out.println("Enter Your bank account Number");
                         String acc = bank.sc.next();
-
-                        // (accontList.containsKey(acc)) ? Deposit(accontList.get(acc)) :
-                        // System.out.println("Account didnt exist") ;
-                        if (accontList.containsKey(acc))
-                            bank.Deposit(accontList.get(acc));
-                        else
+                        if (totalUserAccNo.contains(acc)) {
+                            try {
+                                bank.Deposit(bank.DB.getAccount(acc));
+                            } catch (NullPointerException e) {
+                                System.out.println("Some shit happen " + e);
+                            }
+                        } else
                             System.out.println("Account didnt exist");
 
                     }
-                    // case 5 -> {
+                    case 5 -> {
+                        System.out.println("Enter your account number");
+                        String acc = bank.sc.next();
+                        if (totalUserAccNo.contains(acc)) {
+                            bank.printLogs(bank.DB.getAccount(acc));
+                        } else
+                            System.out.print("account not found....");
+                    }
 
-                    // try {
-                    // json.PrintLogs(accontList.get(searchAccount(TotalUsers,
-                    // accontList)).getAccountNumber());
-                    // } catch (NumberNotValidException e) {
-                    // System.out.println(e);
-                    // }
-                    // }
                     case 0 -> {
                         // json.SyncAccountDataToJson();
                         bank.sc.close();
@@ -108,37 +119,6 @@ public class Bank {
             }
         }
     }
-
-    // static int searchAccount(int user, List<Accounts> acc) throws
-    // NumberNotValidException {
-    // byte Attempt = 0;
-
-    // while (Attempt < 3) {
-    // try {
-    // System.out.print("Enter Your Bank Account Number: ");
-    // int accNo = sc.nextInt();
-    // if (String.valueOf(accNo).length() != 4) {
-    // System.out.println("Please Enter a valid 4 digit Account Number");
-    // continue;
-    // }
-
-    // for (byte i = 0; i < user; i++) {
-    // if (acc.get(i).getAccountNumber() == accNo) {
-    // return i;
-    // }
-    // }
-    // throw new NumberNotValidException("Account Number Doesn't match");
-    // } catch (InputMismatchException e) {
-    // System.out.println("Please Enter a valid number\n");
-    // } catch (NumberNotValidException a) {
-    // System.out.println(a);
-    // System.out.println("You have " + (3 - Attempt) + " attempts left\n");
-    // Attempt++;
-    // }
-    // }
-    // throw new NumberNotValidException("maximum trying limit
-    // exit.\n..........................");
-    // }
 
     // just will check this new added methods
     void checkBalance(Accounts acc) {
@@ -161,19 +141,20 @@ public class Bank {
         System.out.println("Enter the Amount You want to Withdraw");
         try {
             amount = sc.nextShort();
-            if (amount >= 0)
-                throw new InputMismatchException();
+            if (amount <= 0)
+                throw new InputMismatchException("Please Enter a Valid Amount");
             if (amount > acc.getBalance())
                 throw new InputMismatchException("Insufficient Balance");
 
         } catch (InputMismatchException e) {
-            System.out.println("Please Enter a Valid Amount");
+            System.out.println(e);
             sc.nextLine(); // Clear the invalid input
             return;
         }
 
-        acc.setBalance(acc.getBalance() - amount);
-        ;
+        DB.updateBalance(acc.getAccountNumber(), acc.getBalance() - amount);
+        acc = DB.getAccount(acc.getAccountNumber());
+
         System.out.println("Amount Withdrawn Successfully");
         System.out.println("Your Remaining Balance is: " + acc.getBalance());
         // json.writeLogs(-amount, acc.getAccountNumber());
@@ -191,7 +172,7 @@ public class Bank {
 
         try {
             amount = sc.nextShort();
-            if (amount >= 0)
+            if (amount <= 0)
                 throw new InputMismatchException();
         } catch (InputMismatchException e) {
             System.out.println("Please Enter a Valid Amount");
@@ -199,10 +180,31 @@ public class Bank {
             return;
         }
 
-        acc.setBalance(amount + acc.getBalance());
+        DB.updateBalance(acc.getAccountNumber(), (amount + acc.getBalance()));
+        acc = DB.getAccount(acc.getAccountNumber());
+
         System.out.println("Amount Deposit Successfully");
         System.out.println("Your Updated Balance is: " + acc.getBalance());
         // json.writeLogs(amount, acc.getAccountNumber());
     }
 
+    void printLogs(Accounts acc) {
+        ArrayList<String> logs = new ArrayList<>();
+        DB.getLogs(logs, acc.getAccountNumber());
+
+        if (logs.isEmpty()) {
+            System.out.println("Nothing to Print");
+            return;
+        }
+        if (!handle.validatePin(acc.getPin())) {
+            System.out.println("Wrong Otp Entered Too many times.......");
+            return;
+        }
+
+        System.out.println("Transaction Histroy for " + acc.getAccountNumber());
+        System.out.println("Date And Time             amount");
+        for (String log : logs) {
+            System.out.println(log);
+        }
+    }
 }

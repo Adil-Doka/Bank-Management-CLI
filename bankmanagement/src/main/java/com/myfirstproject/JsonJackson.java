@@ -25,15 +25,15 @@ public class JsonJackson {
 
     List<Accounts> account;
     ObjectMapper mapper = new ObjectMapper();
-    
+
     LocalDate date;
     LocalTime time;
     DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm:ss");
-    
+
     // loads Accounts Data from json file and maps to obj.
     public JsonJackson(List<Accounts> account) {
-        
+
         this.account = account;
         Accounts acc = new Accounts();
         dir.mkdir();
@@ -80,9 +80,7 @@ public class JsonJackson {
 
     void SyncAccountDataToJson() {
         this.accountData.delete();
-        try(FileWriter fwd = new FileWriter(this.AccountDataPath, true)){
-
-            
+        try (FileWriter fwd = new FileWriter(this.AccountDataPath, true)) {
 
             for (Accounts account : account) {
                 fwd.write(mapper.writeValueAsString(account));
@@ -111,13 +109,14 @@ public class JsonJackson {
             }
             return;
         }
-        
-        
+
         date = LocalDate.now();
         time = LocalTime.now();
 
-        LogEntry trans= new LogEntry(accountNo,date.format(formatDate),time.format(formatTime),amount,account.get(accountNo-1000).getBalance());
-        // String str = "{\"accountNumber\":"+accountNo+",\"date\":\""+date.format(formatDate)+"\",\"time\":\""+time.format(formatTime)+"\",\"amount\":"+amount+",\"balance\":"+account.get(accountNo-1000).getBalance()+"}";
+        LogEntry trans = new LogEntry(accountNo, date.format(formatDate), time.format(formatTime), amount,
+                account.get(accountNo - 1000).getBalance());
+        // String str =
+        // "{\"accountNumber\":"+accountNo+",\"date\":\""+date.format(formatDate)+"\",\"time\":\""+time.format(formatTime)+"\",\"amount\":"+amount+",\"balance\":"+account.get(accountNo-1000).getBalance()+"}";
 
         try (FileWriter fwd = new FileWriter(this.LogsDataPath, true)) {
 
@@ -131,21 +130,24 @@ public class JsonJackson {
         }
 
     }
-    void PrintLogs(int accountNo) {                                                 
+
+    void PrintLogs(int accountNo) {
         LogEntry Transaction = new LogEntry();
         try (BufferedReader reader = new BufferedReader(new FileReader(this.LogsDataPath))) {
-            String line;int count = 0;
+            String line;
+            int count = 0;
 
-            System.out.println("\nAccount Number: "+accountNo);
+            System.out.println("\nAccount Number: " + accountNo);
             while ((line = reader.readLine()) != null) {
                 Transaction = mapper.readValue(line, LogEntry.class);
 
-                if(Transaction.getAccountNumber()==accountNo){
-                    System.out.println("\nDate: "+Transaction.getDate()+"\nTime: "+Transaction.getTime()+"\nAmount: "+Transaction.getAmount()+"\nBalance: "+Transaction.getBalance()+"\n");
+                if (Transaction.getAccountNumber() == accountNo) {
+                    System.out.println("\nDate: " + Transaction.getDate() + "\nTime: " + Transaction.getTime()
+                            + "\nAmount: " + Transaction.getAmount() + "\nBalance: " + Transaction.getBalance() + "\n");
                     count++;
                 }
             }
-            if(count==0){
+            if (count == 0) {
                 System.out.println("No Transaction Found");
             }
         } catch (FileNotFoundException e) {
@@ -166,6 +168,7 @@ class LogEntry {
     public LogEntry() {
         // Default constructor for json mapping
     }
+
     // Constructor
     public LogEntry(int accountNumber, String date, String time, int amount, int balance) {
         this.accountNumber = accountNumber;

@@ -3,19 +3,19 @@ package com.myfirstproject;
 
 class Accounts {
 
+    private String accountNumber;
     private String name;
     private String mobileNumber;
-    private String accountNumber;
     private String pin;
     private int balance;
 
     // Constructor
-    public Accounts(String name, String mobileNumber, String accountNumber, String pin) {
+    public Accounts(String name, String mobileNumber, String accountNumber, String pin,int balance) {
         this.name = name;
         this.mobileNumber = mobileNumber;
         this.accountNumber = accountNumber;
         this.pin = pin;
-        this.balance = 0;
+        this.balance = balance;
     }
     Accounts(){
         

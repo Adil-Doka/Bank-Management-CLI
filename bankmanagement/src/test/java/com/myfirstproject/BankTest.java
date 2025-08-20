@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.io.InputStream;
+// import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -16,18 +16,18 @@ public class BankTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private PrintStream originalOut;
-    private InputStream originalIn;
+    // private InputStream originalIn;
 
     @BeforeEach
     void setUp() {
-        originalIn = System.in;
+        // originalIn = System.in;
         originalOut = System.out;
         System.setOut(new PrintStream(outContent));
     }
 
     @AfterEach
     void tearDown() {
-        System.setIn(originalIn);
+        // System.setIn(originalIn);
         System.setOut(originalOut);
         outContent.reset();
     }
@@ -101,7 +101,7 @@ public class BankTest {
     @Test
     void testDepositInvalidAmount() {
         Accounts account = new Accounts("John Doe", "1234567890", "1001", "1234");
-        Bank bank = prepareBankWithInput("1234\nabc\n0\n");
+        Bank bank = prepareBankWithInput("1234\nabc\n-100\n");
         bank.Deposit(account);
 
         assertEquals(0, account.getBalance());
@@ -125,6 +125,7 @@ public class BankTest {
         Accounts account = new Accounts("John Doe", "1234567890", "1001", "1234");
         account.setBalance(100);
         Bank bank = prepareBankWithInput("1234\n500\n");
+
         bank.withDraw(account);
 
         assertEquals(100, account.getBalance());

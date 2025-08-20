@@ -50,8 +50,7 @@ public class UserInputHandlerTest {
 
         InValidInputException exception = assertThrows(
                 InValidInputException.class,
-                () -> handler.CheckName()
-                ,"Should throw exception after 3 invalid name attempts");
+                () -> handler.CheckName(), "Should throw exception after 3 invalid name attempts");
         assertEquals("Invalid Name Entered Too Many Times", exception.getMessage());
     }
 
