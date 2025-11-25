@@ -6,10 +6,6 @@ class UserInputHandler {
 
     Scanner sc;
 
-    UserInputHandler() {
-        sc = new Scanner(System.in);
-    }
-
     UserInputHandler(Scanner sc) {
         this.sc = sc;
     }
