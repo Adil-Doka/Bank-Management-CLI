@@ -10,6 +10,11 @@ class UserInputHandler {
         this.sc = sc;
     }
 
+    UserInputHandler() {
+        // Default constructor
+        sc = new Scanner(System.in);
+    }
+
     String CheckName() throws InValidInputException {
         String name;
         byte attempt = 0;
@@ -18,8 +23,8 @@ class UserInputHandler {
         while (!isOnlyAlphabets(name)) {
             attempt++;
             System.out.println("Enter a Valid Name");
-            name = sc.nextLine();
-            if (attempt == 3) // giving 4 attemts.
+            name = sc.next();
+            if (attempt >= 3) // giving 4 attemts.
                 throw new InValidInputException("Invalid Name Entered Too Many Times");
         }
         return name;
@@ -31,20 +36,14 @@ class UserInputHandler {
 
         System.out.println("Enter You'r Mobile Number");
         num = sc.next();
-        while (!isInteger(num)) {
+        while (!isInteger(num) || num.length() != 10) {
             attempt++;
-            System.out.println("Enter a Valid mobile Number");
+            System.out.println("Enter a Valid 10 Digit mobile Number");
             num = sc.next();
-            if (attempt == 3) // giving 4 attemts.
+            if (attempt >= 3) // giving 4 attemts.
                 throw new InValidInputException("Invalid Mobile Number Entered Too Many Times");
         }
-        while (num.length() != 10) {
-            attempt++;
-            System.out.println("Enter a 10 Digit Mobile Number");
-            num = sc.next();
-            if (attempt == 3) // giving 4 attemts in total.
-                throw new InValidInputException("Invalid Mobile Number Entered Too Many Times");
-        }
+
         return num;
     }
 
@@ -57,16 +56,16 @@ class UserInputHandler {
     }
 
     String checkPin() throws InValidInputException {
-        // System.out.println("Create new PIN:");
+
         String pin;
         byte attempt = 0;
 
-        System.out.println("Enter the 4 digit Pin Below");
+        System.out.println("Enter the 4 digit Pin Below\n");
 
         pin = sc.next();
 
-        while ((!isInteger(pin)) ||
-                (!(pin.length() == 4))) {
+        while ((!isInteger(pin)) || (!(pin.length() == 4))) {
+
             attempt++;
             System.out.println("Invalid pin\nEnter the correct 4 Digit Pin");
             pin = sc.next();
@@ -81,19 +80,19 @@ class UserInputHandler {
 
     boolean validatePin(String Pin) {
 
-        int attempt = 0;
-        System.out.println("Enter your 4 digit Pin Below");
+        byte attempt = 0;
+
+        System.out.println("Enter your 4 digit Pin Below\n");
 
         while (attempt < 3) {
-            String P = sc.next();
-            if (Pin.equals(P)) {
-                return true;
-            } else {
-                System.out.println("Invalid Pin");
-            }
+            String pin = sc.next();
+            if (Pin.equals(pin))   return true;
+
+            System.out.println("Invalid Pin");
             System.out.println("Enter Your Pin Again (" + (2 - attempt) + " attempts left)");
             attempt++;
         }
+
         System.out.println("Invalid Pin entered too many times");
         return false;
     }

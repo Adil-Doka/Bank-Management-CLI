@@ -7,10 +7,10 @@ class Accounts {
     private String name;
     private String mobileNumber;
     private String pin;
-    private int balance;
+    private double balance;
 
     // Constructor
-    public Accounts(String name, String mobileNumber, String accountNumber, String pin,int balance) {
+    public Accounts(String name, String mobileNumber, String accountNumber, String pin,double balance) {
         this.name = name;
         this.mobileNumber = mobileNumber;
         this.accountNumber = accountNumber;
@@ -40,7 +40,7 @@ class Accounts {
         return this.pin;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return this.balance;
     }
 
@@ -60,7 +60,7 @@ class Accounts {
         this.pin = pin;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 

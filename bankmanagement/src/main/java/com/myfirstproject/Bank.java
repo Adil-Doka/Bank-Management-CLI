@@ -1,33 +1,21 @@
-
 package com.myfirstproject;
 
 import java.util.Scanner;
 
 public class Bank {
 
-    static JDBCconectivity DB;
-    static Scanner sc;
-
-    Bank(Scanner sc, JDBCconectivity DB) {
-        Bank.sc = sc;
-        Bank.DB = DB;
-    }
-
-    static {
-        Bank.sc = new Scanner(System.in);
-        Bank.DB = new JDBCconectivity();
-    }
-
     public static void main(String[] args) {
 
-        AccountActions accAction = new AccountActions(sc, DB);
+        AccountActions accAction = new AccountActions();
         byte option = 0;
 
-        boolean isLogedIN;
+        Scanner sc = new Scanner(System.in);
+
+        boolean isLoggedIn;
 
         while (true) {
-            isLogedIN = accAction.login();
-            while (isLogedIN) {
+            isLoggedIn = accAction.login();
+            while (isLoggedIn) {
 
                 System.out.println(
                         "\n1.check Balance\n2.withDraw Money\n3.Deposit Money\n4.Print Log\n0.LogOut");
@@ -40,13 +28,13 @@ public class Bank {
 
                         case 1 -> accAction.checkBalance();
 
-                        case 2 -> accAction.withDraw();
+                        case 2 -> accAction.withdraw();
 
-                        case 3 -> accAction.Deposit();
+                        case 3 -> accAction.deposit();
 
                         case 4 -> accAction.printLogs();
 
-                        case 0 -> isLogedIN = false;
+                        case 0 -> isLoggedIn = false;
 
                         default ->
                             System.out.println("Please Enter a valid option:");

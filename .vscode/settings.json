@@ -7,15 +7,15 @@
         "authProtocol": "default",
         "enableSsl": "Disabled"
       },
+      "ssh": "Disabled",
       "previewLimit": 50,
       "server": "localhost",
       "port": 3306,
       "driver": "MySQL",
-      "name": "MylocalSQL",
-      "group": "local",
-      "database": "localSQL",
-      "username": "root",
-      "password": "Root@123"
+      "name": "bank_management",
+      "group": "Projects",
+      "database": "bank_management",
+      "username": "adil"
     }
   ]
 }

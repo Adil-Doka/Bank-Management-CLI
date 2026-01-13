@@ -1,3 +1,4 @@
+// sample accounts data to play with 
 {"name":"Adil","mobileNumber":"9876543210","accountNumber":1000,"pin":1234,"balance":3010}
 {"name":"Sana","mobileNumber":"9988776655","accountNumber":1001,"pin":2345,"balance":2500}
 {"name":"Zaid","mobileNumber":"9012345678","accountNumber":1002,"pin":3456,"balance":3200}
