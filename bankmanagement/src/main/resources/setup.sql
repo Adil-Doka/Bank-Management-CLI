@@ -1,38 +1,46 @@
-CREATE DATABASE if not EXISTS Bank_Management;
+-- data base setup script for the project 
 
-use Bank_Management;
+CREATE DATABASE if not EXISTS bank_management;
 
-CREATE TABLE IF NOT EXISTS User_Data (
+use bank_management;
+
+CREATE TABLE IF NOT EXISTS user_data (
     account_number INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
-    mobileNumber VARCHAR(15) not null,
+    mobile_number VARCHAR(15) not null,
     pin VARCHAR(6) not null,
-    balance int default 0
+    balance DECIMAL(8, 2) default 0.00
 ) AUTO_INCREMENT = 1000;
 
 -- SELECT *
 -- FROM User_Data;
-CREATE table if not EXISTS Account_Logs(
+CREATE table if not EXISTS account_logs(
     account_number INT,
-    DateAndTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_and_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     amount int NOT NULL,
-    CONSTRAINT fk_user FOREIGN KEY (account_number) REFERENCES User_Data (account_number) ON DELETE CASCADE
+    CONSTRAINT fk_user FOREIGN KEY (account_number) REFERENCES user_data (account_number) ON DELETE CASCADE
 );
 
 CREATE TRIGGER create_log
 AFTER
-UPDATE ON User_Data FOR EACH ROW BEGIN
-INSERT INTO Account_Logs (account_number, amount)
+UPDATE ON user_data FOR EACH ROW BEGIN
+INSERT INTO account_logs (account_number, amount)
 VALUES (NEW.account_number, NEW.balance - OLD.balance);
 
 END;
 
-CREATE INDEX search_By_acc ON User_Data (account_number);
+CREATE INDEX search_By_acc ON user_data (account_number);
 
-CREATE INDEX searchLog_By_acc ON Account_Logs (account_number);
+CREATE INDEX searchLog_By_acc ON account_logs (account_number);
 
-INSERT INTO User_Data (name, mobileNumber, password, balance)
-VALUES ('Amit Sharma', '9876543210', 'am1234', 5000),
+-- some sample data 
+INSERT INTO user_data (name, mobile_number, pin, balance)
+VALUES (
+        'Amit Sharma',
+        '9876543210',
+        'am1234',
+        5000
+    ),
     (
         'Priya Desai',
         '9123456789',
